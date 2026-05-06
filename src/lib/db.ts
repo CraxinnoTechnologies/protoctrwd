@@ -3,7 +3,12 @@ import path from "path";
 import fs from "fs";
 import crypto from "crypto";
 
-const DB_DIR = path.join(process.cwd(), "data");
+// Vercel's filesystem is read-only except for /tmp. Locally we keep the DB
+// alongside the project so data persists across runs.
+const DB_DIR =
+  process.env.VERCEL || process.env.NETLIFY
+    ? path.join("/tmp", "rwd-data")
+    : path.join(process.cwd(), "data");
 const DB_PATH = path.join(DB_DIR, "leads.db");
 
 if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true });
