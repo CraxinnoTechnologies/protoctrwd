@@ -11,10 +11,25 @@ const DB_DIR =
     : path.join(process.cwd(), "data");
 const DB_PATH = path.join(DB_DIR, "leads.db");
 
-if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true });
+function openDatabase(): Database.Database {
+  try {
+    if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true });
+    const conn = new Database(DB_PATH);
+    try {
+      conn.pragma("journal_mode = WAL");
+    } catch {
+      // some filesystems (e.g. some serverless /tmp mounts) reject WAL — leave default journal
+    }
+    return conn;
+  } catch (err) {
+    // During Vercel's "Collecting page data" build phase the FS may be unavailable;
+    // an in-memory DB lets module evaluation succeed. Runtime uses the proper DB.
+    console.warn("[db] falling back to in-memory database:", err);
+    return new Database(":memory:");
+  }
+}
 
-const db = new Database(DB_PATH);
-db.pragma("journal_mode = WAL");
+const db = openDatabase();
 db.pragma("foreign_keys = ON");
 
 db.exec(`
