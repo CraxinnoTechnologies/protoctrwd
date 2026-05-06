@@ -1,0 +1,43 @@
+# dependencies
+**/node_modules
+.pnp
+.pnp.*
+
+# next.js / build output
+**/.next
+**/out
+**/build
+**/dist
+
+# typescript
+*.tsbuildinfo
+**/next-env.d.ts
+
+# local sqlite db (created at runtime)
+**/data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# env / secrets
+.env*
+*.pem
+
+# editor / OS
+.DS_Store
+.idea
+.vscode/*
+!.vscode/extensions.json
+
+# debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# vercel
+.vercel
+
+# claude code local settings (machine-specific permission allow-list)
+.claude/settings.local.json

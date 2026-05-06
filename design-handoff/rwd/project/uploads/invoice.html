@@ -1,0 +1,468 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>RWD</title>
+
+      <style>
+        .acknowledgement-slip {
+          font-family: 'Courier New', Courier, monospace;
+          /* font-family: Arial, Helvetica, sans-serif; */
+          margin: 15px;
+          max-width: 900px;
+          margin-inline: auto;
+
+          .head {
+            text-align: center;
+
+            .company {
+              margin-bottom: 15px;
+              font-size: 28px;
+            }
+
+            p {
+              margin: 0;
+            }
+
+            .address {
+              margin-bottom: 5px;
+              font-size: 18px;
+              font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+
+            .contact {
+              margin-bottom: 15px;
+              font-size: 18px;
+              font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+
+            .heading {
+              margin-top: 5px;
+              margin-bottom: 20px;
+              font-size: 28px;
+            }
+
+            p.note {
+              margin-bottom: 30px;
+              span {
+                text-decoration: underline;
+                text-decoration-line: underline;
+                text-decoration-thickness: 1px;
+                font-weight: 600;
+              }
+            }
+          }
+
+          .empDetail1 {
+            width: 100%;
+            text-align: left;
+            border: 2px solid black;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 20px;
+
+            th {
+              font-size: 20px;
+            }
+
+            .billing-details {
+              margin: 0;
+              padding: 0;
+              white-space: pre-line;
+              text-align: left;
+              margin-bottom: 20px;
+            }
+
+            .companyName {
+            font-size: 15px;
+            font-weight: 200;
+            }
+
+            .shipping-details {
+              margin: 0;
+              padding: 0;
+              white-space: pre-line;
+              text-align: left;
+              margin-bottom: 20px;
+            }
+          }
+
+          .empDetail2 {
+            width: 100%;
+            text-align: left;
+            border: 2px solid black;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 30px;
+
+            th {
+              font-size: 18px;
+              text-align: center;
+              padding: 0;
+            }
+
+            td {
+              text-align: center;
+              font-size: 18px;
+              padding-block: 5px;
+
+              p {
+                margin: 0;
+              }
+            }
+          }
+
+          .empDetail3 {
+            min-height: 250px;
+            width: 100%;
+            text-align: left;
+            border: 2px solid black;
+            border-collapse: collapse;
+            /* table-layout: fixed; */
+
+            th {
+              font-size: 18px;
+              text-align: center;
+              padding: 0;
+            }
+
+            td {
+              text-align: center;
+              padding-block: 5px;
+              margin-bottom: auto;
+              vertical-align: top;
+
+              p {
+                margin: 0;
+              }
+
+              p.discount {
+                margin-top: 5px;
+                letter-spacing: 0.25px;
+              }
+            }
+
+            td.description {
+              text-align: left;
+            }
+          }
+
+          .subTotal {
+            font-weight: 800;
+          }
+
+          .table-border-right {
+            border-right: 1px solid;
+          }
+
+          .myBackground {
+            padding-top: 10px;
+            text-align: left;
+            border: 1px solid black;
+            height: 40px;
+          }
+
+          th,
+          td {
+            padding-left: 6px;
+          }
+
+            .orderId {
+             width: 100%;
+              display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            }
+
+        }
+      </style>
+    </head>
+    <body>
+      <div class="acknowledgement-slip">
+        <div class="head">
+          <h1 class="company">RWD Innovative Specialty Trims, LLC</h1>
+          <p class="address">PO Box 1147 Monticello, FL 32345</p>
+          <p class="contact">888-793-8746</p>
+          <h1 class="heading">ORDER ACKNOWLEDGEMENT</h1>
+          <p class="note">
+            ${
+              orderDetails.shippingCost ||
+              orderDetails.addShippingCostA ||
+              orderDetails.addShippingCostB
+                ? ""
+                : "(Below <span>does not</span> include shipping or applicable taxes)"
+            }
+          </p>
+        </div>
+
+        <table class="empDetail1">
+          <tr class="myBackground">
+            <th colspan="4" class="table-border-right">BILL TO: <span class="companyName">${compName}</span></th>
+            <th colspan="4">SHIP TO:
+            <span class="companyName">${orderDetails.companyName}</span>
+            </th>
+          </tr>
+          <tr>
+            <td colspan="4" class="table-border-right">
+              <p class="billing-details">
+                  ${billingAddress}
+                  Phone: ${BillingPhoneNumber}
+              </p>
+            </td>
+            <td colspan="4">
+            <p class="shipping-details">
+              ${shippingAddress}
+              Phone: ${ShippingPhoneNumber}
+              </p>
+            </td>
+          </tr>
+        </table>
+
+        <div class="orderId">
+        <p>Order ID:${orderDetails.id}</p>
+        <p>Status: ${paymentStatus ? "Paid" : "Pending"}</p>
+        </div>
+
+        <table class="empDetail2">
+          <tr class="myBackground">
+            <th class="table-border-right">ORDER DATE</th>
+            <th class="table-border-right">PO#</th>
+            <th class="table-border-right">CONTACT</th>
+            <th class="table-border-right">TERMS</th>
+            <th>EXPECTED SHIP DATE</th>
+          </tr>
+          <tr>
+            <td class="table-border-right"><p>${orderDate}</p></td>
+            <td class="table-border-right"><p>${
+              orderDetails.PoNo ? orderDetails.PoNo : "N/A"
+            }</p></td>
+            <td class="table-border-right"><p>${
+              orderDetails.customerName
+            }</p></td>
+            <td class="table-border-right"><p>${
+              orderDetails.paymentTermName
+            }</p></td>
+            <td><p>${ExpectedDate}</p></td>
+          </tr>
+        </table>
+        <table class="empDetail3">
+          <tr class="myBackground">
+            <th class="table-border-right">QUANTITY</th>
+            <th class="table-border-right">UOM</th>
+            <th class="table-border-right" colspan="2">DESCRIPTION</th>
+            <th class="table-border-right">UNIT PRICE</th>
+            <th>TOTAL</th>
+          </tr>
+          ${orderDetails.products
+            .map(
+              (product) => `
+            <tr>
+              <td class="table-border-right"><p>${product.quantity}</p></td>
+              <td class="table-border-right"><p>Roll</p></td>
+              <td class="table-border-right description" colspan="2">
+                <p>${product.displayName}</p>
+              </td>
+              <td class="table-border-right">
+                <p>${
+                  product.discountedPrice &&
+                  product.discountedPrice !== product.price
+                    ? `<s>$${formatNumber(product.price)}</s> $${formatNumber(
+                        product.discountedPrice,
+                      )}`
+                    : `$${formatNumber(
+                        product.discountedPrice || product.price,
+                      )}`
+                }</p>
+              </td>
+              <td>
+                <p>$${formatNumber(
+                  product.quantity *
+                    (product.discountedPrice
+                      ? product.discountedPrice
+                      : product.price),
+                )}</p>
+              </td>
+            </tr>
+          `,
+            )
+            .join("")}
+
+
+          <tr>
+          <td class="table-border-right"></td>
+          <td class="table-border-right"></td>
+          <td class="">
+          <p class="subTotal">Subtotal</p>
+          </td>
+          <td class="table-border-right"></td>
+          <td class="table-border-right"></td>
+          <td class="table-border-right subTotal">
+          $${formatNumber(subTotal)}
+          </td>
+
+          </tr>
+
+          <tr>
+          <td class="table-border-right"></td>
+          <td class="table-border-right"></td>
+          <td>
+          <p class="discount">${
+            orderDetails?.discount !== 0
+              ? orderDetails.discountPercentage
+                ? `${formatNumber(orderDetails.discount)}% Discount`
+                : `$${formatNumber(orderDetails.discount)} Discount`
+              : ""
+          }
+          </p>
+          </td>
+          <td class="table-border-right"></td>
+          <td class="table-border-right">
+          </td>
+          <td>
+          <p class="discount">${
+            orderDetails?.discount !== 0
+              ? `-$${formatNumber(totalDiscountAmount)}`
+              : ""
+          }
+
+
+          </p>
+          </td>
+          </tr>
+
+          <tr>
+          <td class="table-border-right"></td>
+          <td class="table-border-right"></td>
+          <td class="">
+
+          <p class="discount">${
+            orderDetails.shippingCost ? "Shipping cost" : ""
+          }</p>
+          </td>
+          <td class="table-border-right"></td>
+          <td class="table-border-right"></td>
+          <td class="table-border-right">
+          ${
+            orderDetails.shippingCost
+              ? `$${formatNumber(orderDetails.shippingAmount)}`
+              : ""
+          }
+          </td>
+
+          </tr>
+
+
+          <tr>
+          <td class="table-border-right"></td>
+          <td class="table-border-right"></td>
+          <td class="">
+
+          <p class="discount">${
+            orderDetails.taxExempt ? `Tax (${orderDetails.taxAmount}%)` : ""
+          }</p>
+          </td>
+          <td class="table-border-right"></td>
+          <td class="table-border-right"></td>
+          <td class="table-border-right">
+          ${orderDetails.taxExempt ? `$${formatNumber(getTaxExempt())}` : ""}
+          </td>
+          </tr>
+
+
+                    <tr>
+          <td class="table-border-right"></td>
+          <td class="table-border-right"></td>
+          <td class="">
+
+          <p class="discount">${
+            orderDetails.hasRushFee
+              ? `Rush Fee (${orderDetails.rushFeeAmount}%)`
+              : ""
+          }</p>
+          </td>
+          <td class="table-border-right"></td>
+          <td class="table-border-right"></td>
+          <td class="table-border-right">
+          ${orderDetails.hasRushFee ? `$${formatNumber(getRushFee())}` : ""}
+          </td>
+          </tr>
+
+          <tr>
+          <td class="table-border-right"></td>
+          <td class="table-border-right"></td>
+          <td class="">
+          <p class="discount">${
+            orderDetails.isSplit ? "Shipping cost 1" : ""
+          }</p>
+          </td>
+          <td class="table-border-right"></td>
+          <td class="table-border-right"></td>
+          <td class="table-border-right">
+          ${
+            orderDetails.addShippingCostA
+              ? `$${orderDetails.shippingCostA}`
+              : ""
+          }
+          </td>
+
+          </tr>
+
+          <tr>
+          <td class="table-border-right">
+          </td>
+          <td class="table-border-right"></td>
+          <td class="">
+          <p class="discount">${
+            orderDetails.isSplit ? "Shipping cost 2" : ""
+          }</p>
+          </td>
+          <td class="table-border-right"></td>
+          <td class="table-border-right"></td>
+          <td class="table-border-right">
+          ${
+            orderDetails.addShippingCostB
+              ? `$${orderDetails.shippingCostB}`
+              : ""
+          }
+          </td>
+
+          </tr>
+
+          <tr>
+          <td class="table-border-right">
+          <p class="subTotal">
+          ${totalQuantity}
+          </p>
+          </td>
+          <td class="table-border-right"></td>
+          <td class="">
+
+          <p class="subTotal">Total</p>
+          </td>
+          <td class="table-border-right"></td>
+          <td class="table-border-right"></td>
+          <td class="table-border-right subTotal">
+          $${formatNumber(orderDetails.total)}
+          </td>
+
+          </tr>
+
+          <tr>
+            <td class="table-border-right"></td>
+            <td class="table-border-right"></td>
+            <td class=""></td>
+            <td class="table-border-right"></td>
+            <td class="table-border-right"></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+    </body>
+  </html>

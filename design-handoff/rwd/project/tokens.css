@@ -1,0 +1,244 @@
+/* ============================================================
+   Craxinno Shadcn Design System — Foundations
+   Colors & Typography tokens (light + dark)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+/* ---------- Base tokens (LIGHT / default) ----------
+   Shadcn-style HSL primitives + semantic aliases.
+   Colors extracted from the Figma Style-Guide.
+*/
+:root {
+  /* primitive greys — neutral / zinc ramp */
+  --zinc-50:  #FAFAFA;
+  --zinc-100: #F4F4F5;
+  --zinc-200: #E4E4E7;
+  --zinc-300: #D4D4D8;
+  --zinc-400: #A1A1AA;
+  --zinc-500: #71717A;
+  --zinc-600: #52525B;
+  --zinc-700: #3F3F46;
+  --zinc-800: #27272A;
+  --zinc-900: #18181B;
+  --zinc-950: #09090B;
+
+  /* primitive blues — "Blue Theme" accent ramp */
+  --blue-50:  #D3E0FB;
+  --blue-100: #B6CBF8;
+  --blue-200: #92B1F5;
+  --blue-300: #6E97F2;
+  --blue-400: #497DEE;
+  --blue-500: #2563EB; /* base */
+  --blue-600: #1F53C4;
+  --blue-700: #19429D;
+  --blue-800: #133276;
+  --blue-900: #0C214E;
+  --blue-950: #07142F;
+
+  /* primitive reds — "Red Theme" destructive / accent ramp */
+  --red-50:   #F9D3D6;
+  --red-100:  #F4B6BA;
+  --red-200:  #EF9298;
+  --red-300:  #EA6E75;
+  --red-400:  #E44953;
+  --red-500:  #DF2530; /* base */
+  --red-600:  #BA1F28;
+  --red-700:  #951920;
+  --red-800:  #701318;
+  --red-900:  #4A0C10;
+  --red-950:  #2D070A;
+
+  /* semantic — LIGHT */
+  --background:         #FFFFFF;
+  --foreground:         var(--zinc-950);   /* #09090B */
+  --card:               #FFFFFF;
+  --card-foreground:    var(--zinc-950);
+  --popover:            #FFFFFF;
+  --popover-foreground: var(--zinc-950);
+  --primary:            var(--zinc-900);
+  --primary-foreground: var(--zinc-50);
+  --secondary:          var(--zinc-100);
+  --secondary-foreground: var(--zinc-900);
+  --muted:              var(--zinc-100);
+  --muted-foreground:   var(--zinc-500);   /* #71717A  — body secondary */
+  --accent:             var(--zinc-100);
+  --accent-foreground:  var(--zinc-900);
+  --destructive:        var(--red-500);
+  --destructive-foreground: #FAFAFA;
+  --border:             var(--zinc-200);   /* #E4E4E7 "Lines & Strokes" */
+  --input:              var(--zinc-200);
+  --ring:               var(--zinc-950);
+
+  /* highlight accent (blue brand) */
+  --brand:              var(--blue-500);
+  --brand-foreground:   #FFFFFF;
+
+  /* chart tokens — shadcn-style */
+  --chart-1: #E76E50;
+  --chart-2: #2A9D90;
+  --chart-3: #274754;
+  --chart-4: #E8C468;
+  --chart-5: #F4A462;
+
+  /* radii, in px */
+  --radius-sm: 2px;
+  --radius:    6px;   /* default */
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* spacing — shadcn uses tailwind scale; we expose a subset */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* elevation — shadcn-style subtle shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(0,0,0,0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0,0,0,0.08), 0 1px 2px -1px rgba(0,0,0,0.08);
+  --shadow:    0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -2px rgba(0,0,0,0.08);
+  --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.10), 0 4px 6px -4px rgba(0,0,0,0.08);
+  --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.10), 0 8px 10px -6px rgba(0,0,0,0.08);
+
+  /* ---------- Typography ----------
+     Geist is the product/UI family. Montserrat is the
+     section/display family used in the style-guide itself.
+     Geist Mono is used inside code blocks + terminal demos.
+  */
+  --font-sans:    "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Montserrat", "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --fs-xs:   12px;
+  --fs-sm:   14px;
+  --fs-base: 16px;
+  --fs-lg:   18px;
+  --fs-xl:   20px;
+  --fs-2xl:  24px;
+  --fs-3xl:  30px;
+  --fs-4xl:  36px;
+  --fs-5xl:  48px;
+  --fs-6xl:  56px;
+
+  --lh-tight: 1.1;
+  --lh-snug:  1.2;
+  --lh-body:  1.5;
+
+  --fw-light:    300;
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+}
+
+/* ---------- Dark theme ----------
+   Matches the Figma "Black Theme" dashboard — surface #0D0D0D,
+   borders #242428, foreground white, muted text #71717A.
+*/
+.dark, [data-theme="dark"] {
+  --background:         #0D0D0D;
+  --foreground:         #FFFFFF;
+  --card:               #0D0D0D;
+  --card-foreground:    #FFFFFF;
+  --popover:            #0D0D0D;
+  --popover-foreground: #FFFFFF;
+  --primary:            #FAFAFA;
+  --primary-foreground: var(--zinc-900);
+  --secondary:          #242428;
+  --secondary-foreground: #FAFAFA;
+  --muted:              #242428;
+  --muted-foreground:   #A1A1AA;
+  --accent:             #242428;
+  --accent-foreground:  #FAFAFA;
+  --destructive:        #7F1D1D;
+  --destructive-foreground: #FAFAFA;
+  --border:             #242428;
+  --input:              #242428;
+  --ring:               #D4D4D8;
+
+  --shadow-xs: 0 1px 2px 0 rgba(0,0,0,0.35);
+  --shadow-sm: 0 1px 3px 0 rgba(0,0,0,0.45), 0 1px 2px -1px rgba(0,0,0,0.35);
+  --shadow:    0 4px 6px -1px rgba(0,0,0,0.50), 0 2px 4px -2px rgba(0,0,0,0.40);
+}
+
+/* ---------- Semantic type classes ----------
+   These map directly onto the Figma type scale
+   (Headline 1–5, Body, Button/Link, Fields).
+*/
+.h-display,
+h1.display {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-6xl);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+}
+.h1 { font-family: var(--font-sans); font-weight: var(--fw-bold); font-size: var(--fs-5xl); line-height: var(--lh-snug); letter-spacing: -0.02em; color: var(--foreground); }
+.h2 { font-family: var(--font-sans); font-weight: var(--fw-bold); font-size: var(--fs-4xl); line-height: var(--lh-snug); letter-spacing: -0.01em; color: var(--foreground); }
+.h3 { font-family: var(--font-sans); font-weight: var(--fw-bold); font-size: var(--fs-3xl); line-height: var(--lh-snug); color: var(--foreground); }
+.h4 { font-family: var(--font-sans); font-weight: var(--fw-bold); font-size: var(--fs-2xl); line-height: var(--lh-snug); color: var(--foreground); }
+.h5 { font-family: var(--font-sans); font-weight: var(--fw-bold); font-size: var(--fs-xl); line-height: var(--lh-snug); color: var(--foreground); }
+.h6 { font-family: var(--font-sans); font-weight: var(--fw-semibold); font-size: var(--fs-lg); line-height: var(--lh-snug); color: var(--foreground); }
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-2xl);
+  letter-spacing: 0.002em;
+  color: var(--brand);
+  text-transform: uppercase;
+}
+
+.body    { font-family: var(--font-sans); font-weight: var(--fw-regular); font-size: var(--fs-base); line-height: var(--lh-body); color: var(--foreground); }
+.body-sm { font-family: var(--font-sans); font-weight: var(--fw-regular); font-size: var(--fs-sm);   line-height: var(--lh-body); color: var(--foreground); }
+.body-xs { font-family: var(--font-sans); font-weight: var(--fw-regular); font-size: var(--fs-xs);   line-height: var(--lh-body); color: var(--foreground); }
+
+.muted {
+  color: var(--muted-foreground);
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-sm);
+  line-height: 1;
+  color: var(--foreground);
+}
+
+.code, code, kbd, samp {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+/* Link */
+a.link, .link {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--muted-foreground);
+}
+a.link:hover { text-decoration-color: var(--foreground); }
+
+/* Button type */
+.btn-text-lg { font-family: var(--font-sans); font-weight: var(--fw-medium); font-size: var(--fs-base); line-height: 1.2; }
+.btn-text    { font-family: var(--font-sans); font-weight: var(--fw-medium); font-size: var(--fs-sm);   line-height: 1.2; }
+.btn-text-sm { font-family: var(--font-sans); font-weight: var(--fw-medium); font-size: var(--fs-xs);   line-height: 1.2; }
+
+/* Reset helpers used across preview cards */
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--foreground);
+  background: var(--background);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}

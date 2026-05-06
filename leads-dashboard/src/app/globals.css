@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ============================================================
+   Craxinno Shadcn Design System — Foundations
+   Colors & Typography tokens (light + dark)
+   ============================================================ */
+:root {
+  /* primitive greys — neutral / zinc ramp */
+  --zinc-50:  #FAFAFA;
+  --zinc-100: #F4F4F5;
+  --zinc-200: #E4E4E7;
+  --zinc-300: #D4D4D8;
+  --zinc-400: #A1A1AA;
+  --zinc-500: #71717A;
+  --zinc-600: #52525B;
+  --zinc-700: #3F3F46;
+  --zinc-800: #27272A;
+  --zinc-900: #18181B;
+  --zinc-950: #09090B;
+
+  /* primitive blues */
+  --blue-50:  #D3E0FB;
+  --blue-100: #B6CBF8;
+  --blue-200: #92B1F5;
+  --blue-300: #6E97F2;
+  --blue-400: #497DEE;
+  --blue-500: #2563EB;
+  --blue-600: #1F53C4;
+  --blue-700: #19429D;
+  --blue-800: #133276;
+  --blue-900: #0C214E;
+  --blue-950: #07142F;
+
+  /* primitive reds */
+  --red-50:   #F9D3D6;
+  --red-100:  #F4B6BA;
+  --red-200:  #EF9298;
+  --red-300:  #EA6E75;
+  --red-400:  #E44953;
+  --red-500:  #DF2530;
+  --red-600:  #BA1F28;
+  --red-700:  #951920;
+
+  /* semantic — LIGHT */
+  --background: #FFFFFF;
+  --foreground: var(--zinc-950);
+  --card: #FFFFFF;
+  --card-foreground: var(--zinc-950);
+  --popover: #FFFFFF;
+  --popover-foreground: var(--zinc-950);
+  --primary: var(--zinc-900);
+  --primary-foreground: var(--zinc-50);
+  --secondary: var(--zinc-100);
+  --secondary-foreground: var(--zinc-900);
+  --muted: var(--zinc-100);
+  --muted-foreground: var(--zinc-500);
+  --accent: var(--zinc-100);
+  --accent-foreground: var(--zinc-900);
+  --destructive: var(--red-500);
+  --destructive-foreground: #FAFAFA;
+  --border: var(--zinc-200);
+  --input: var(--zinc-200);
+  --ring: var(--zinc-950);
+  --brand: var(--blue-500);
+  --brand-foreground: #FFFFFF;
+  --surface-muted: var(--zinc-50);
+
+  --radius-sm: 2px;
+  --radius: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  --shadow-xs: 0 1px 2px 0 rgba(0,0,0,0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0,0,0,0.08), 0 1px 2px -1px rgba(0,0,0,0.08);
+  --shadow: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -2px rgba(0,0,0,0.08);
+  --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.10), 0 4px 6px -4px rgba(0,0,0,0.08);
+  --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.10), 0 8px 10px -6px rgba(0,0,0,0.08);
+}
+
+/* Dark theme — Craxinno "Black Theme" */
+[data-theme="dark"] {
+  --background: #0D0D0D;
+  --foreground: #FFFFFF;
+  --card: #0D0D0D;
+  --card-foreground: #FFFFFF;
+  --popover: #0D0D0D;
+  --popover-foreground: #FFFFFF;
+  --primary: #FAFAFA;
+  --primary-foreground: var(--zinc-900);
+  --secondary: #242428;
+  --secondary-foreground: #FAFAFA;
+  --muted: #242428;
+  --muted-foreground: #A1A1AA;
+  --accent: #242428;
+  --accent-foreground: #FAFAFA;
+  --destructive: #7F1D1D;
+  --destructive-foreground: #FAFAFA;
+  --border: #242428;
+  --input: #242428;
+  --ring: #D4D4D8;
+  --surface-muted: #0F0F11;
+
+  --shadow-xs: 0 1px 2px 0 rgba(0,0,0,0.35);
+  --shadow-sm: 0 1px 3px 0 rgba(0,0,0,0.45), 0 1px 2px -1px rgba(0,0,0,0.35);
+  --shadow: 0 4px 6px -1px rgba(0,0,0,0.50), 0 2px 4px -2px rgba(0,0,0,0.40);
+}
+
+/* ============================================================
+   Tailwind v4 theme mapping — exposes design tokens as utilities
+   ============================================================ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-surface-muted: var(--surface-muted);
+
+  --color-zinc-50: var(--zinc-50);
+  --color-zinc-100: var(--zinc-100);
+  --color-zinc-200: var(--zinc-200);
+  --color-zinc-300: var(--zinc-300);
+  --color-zinc-400: var(--zinc-400);
+  --color-zinc-500: var(--zinc-500);
+  --color-zinc-600: var(--zinc-600);
+  --color-zinc-700: var(--zinc-700);
+  --color-zinc-800: var(--zinc-800);
+  --color-zinc-900: var(--zinc-900);
+  --color-zinc-950: var(--zinc-950);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: var(--font-montserrat), var(--font-geist-sans), sans-serif;
+
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+
+  --radius-sm: var(--radius-sm);
+  --radius: var(--radius);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--background);
+  min-height: 100vh;
+}
+
+/* Subtle scrollbar polish */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+*::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); background-clip: padding-box; border: 2px solid transparent; }
