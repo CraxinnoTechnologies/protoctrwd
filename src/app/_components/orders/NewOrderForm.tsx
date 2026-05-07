@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ChevronDown, ChevronLeft, Info, Minus, Plus } from "lucide-react";
+import { ChevronDown, ChevronLeft, Info, LayoutGrid, LayoutList, Minus, Plus } from "lucide-react";
 import type { CustomerRow, OrderChannel, ProductRow } from "@/lib/db";
 
 type ProductGroup = {
@@ -66,6 +66,18 @@ export function NewOrderForm({
   });
   const [discount, setDiscount] = useState<Discount>({ type: "amount", value: "" });
   const [quantities, setQuantities] = useState<Record<string, string>>({});
+  const [viewMode, setViewMode] = useState<"list" | "grid">("list");
+
+  useEffect(() => {
+    const saved = typeof window !== "undefined" ? window.localStorage.getItem("rwd:products-view") : null;
+    if (saved === "list" || saved === "grid") setViewMode(saved);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("rwd:products-view", viewMode);
+    }
+  }, [viewMode]);
 
   useEffect(() => {
     let active = true;
@@ -406,24 +418,41 @@ export function NewOrderForm({
               );
             })}
           </div>
-          <div className="text-[13px] font-semibold text-muted-foreground">
-            Using <span className="text-foreground">(Normal)</span>
+          <div className="flex items-center gap-3">
+            <ViewToggle value={viewMode} onChange={setViewMode} />
+            <div className="text-[13px] font-semibold text-muted-foreground">
+              Using <span className="text-foreground">(Normal)</span>
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-col gap-3">
-          {groups.map((g) => (
-            <CategoryTable
-              key={g.key}
-              group={g}
-              quantities={quantities}
-              collapsed={!!collapsed[g.key]}
-              onToggle={() => toggleCollapsed(g.key)}
-              onSetQty={setQty}
-              onStep={stepQty}
-            />
-          ))}
-        </div>
+        {viewMode === "list" ? (
+          <div className="flex flex-col gap-3">
+            {groups.map((g) => (
+              <CategoryTable
+                key={g.key}
+                group={g}
+                quantities={quantities}
+                collapsed={!!collapsed[g.key]}
+                onToggle={() => toggleCollapsed(g.key)}
+                onSetQty={setQty}
+                onStep={stepQty}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+            {groups.map((g) => (
+              <CategoryCard
+                key={g.key}
+                group={g}
+                quantities={quantities}
+                onSetQty={setQty}
+                onStep={stepQty}
+              />
+            ))}
+          </div>
+        )}
 
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
           <div className="text-[11.5px] text-muted-foreground space-y-1">
@@ -794,6 +823,170 @@ function Line({ label, value }: { label: string; value: number }) {
 
 const inputCls =
   "h-10 w-full px-3 rounded-md border border-input bg-background text-foreground text-[13.5px] shadow-xs outline-none focus:border-ring focus:ring-[3px] focus:ring-foreground/20";
+
+function ViewToggle({
+  value,
+  onChange,
+}: {
+  value: "list" | "grid";
+  onChange: (v: "list" | "grid") => void;
+}) {
+  return (
+    <div
+      role="tablist"
+      aria-label="Products view"
+      className="inline-flex items-center rounded-md border border-border bg-background p-0.5"
+    >
+      <button
+        type="button"
+        role="tab"
+        aria-selected={value === "list"}
+        onClick={() => onChange("list")}
+        title="List view"
+        className={`inline-flex items-center gap-1.5 h-7 px-2.5 rounded-[5px] text-[12px] font-medium cursor-pointer transition-colors ${
+          value === "list"
+            ? "bg-foreground text-background"
+            : "text-muted-foreground hover:text-foreground"
+        }`}
+      >
+        <LayoutList size={13} />
+        List
+      </button>
+      <button
+        type="button"
+        role="tab"
+        aria-selected={value === "grid"}
+        onClick={() => onChange("grid")}
+        title="Grid view"
+        className={`inline-flex items-center gap-1.5 h-7 px-2.5 rounded-[5px] text-[12px] font-medium cursor-pointer transition-colors ${
+          value === "grid"
+            ? "bg-foreground text-background"
+            : "text-muted-foreground hover:text-foreground"
+        }`}
+      >
+        <LayoutGrid size={13} />
+        Grid
+      </button>
+    </div>
+  );
+}
+
+function CategoryCard({
+  group,
+  quantities,
+  onSetQty,
+  onStep,
+}: {
+  group: ProductGroup;
+  quantities: Record<string, string>;
+  onSetQty: (id: string, value: string) => void;
+  onStep: (id: string, delta: number) => void;
+}) {
+  const selectedCount = group.products.reduce(
+    (s, p) => s + Math.max(0, Math.floor(Number(quantities[p.id] || 0))),
+    0
+  );
+  const groupSubtotal = group.products.reduce((s, p) => {
+    const q = Math.max(0, Math.floor(Number(quantities[p.id] || 0)));
+    return s + p.price * q;
+  }, 0);
+
+  return (
+    <div
+      id={`cat-${group.key}`}
+      className="bg-card border border-border rounded-md overflow-hidden flex flex-col"
+    >
+      <div className="px-3 py-2.5 bg-zinc-50 dark:bg-[#0f0f11] border-b border-border">
+        <div className="flex items-start justify-between gap-2">
+          <div className="text-[12.5px] font-semibold tracking-[-0.005em] leading-tight">
+            {group.label}
+          </div>
+          <span className="shrink-0 text-[10.5px] text-muted-foreground font-mono whitespace-nowrap">
+            / {group.price_unit}
+          </span>
+        </div>
+        {selectedCount > 0 && (
+          <div className="mt-1.5">
+            <span className="text-[10.5px] tabular-nums bg-foreground text-background rounded-full px-2 py-0.5">
+              {selectedCount} · ${groupSubtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </span>
+          </div>
+        )}
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse text-[12px]">
+          <thead>
+            <tr>
+              <th className="text-left px-2.5 py-1.5 bg-background border-b border-border font-medium text-muted-foreground text-[10.5px] tracking-[0.04em] uppercase">
+                Description
+              </th>
+              <th className="text-right px-2 py-1.5 bg-background border-b border-border font-medium text-muted-foreground text-[10.5px] tracking-[0.04em] uppercase whitespace-nowrap">
+                Price
+              </th>
+              <th className="text-center px-2 py-1.5 bg-background border-b border-border font-medium text-muted-foreground text-[10.5px] tracking-[0.04em] uppercase">
+                Qty
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {group.products.map((p) => {
+              const q = Math.max(0, Math.floor(Number(quantities[p.id] || 0)));
+              return (
+                <tr
+                  key={p.id}
+                  className={`border-t border-border transition-colors ${
+                    q > 0 ? "bg-foreground/[0.04] dark:bg-foreground/[0.06]" : ""
+                  }`}
+                >
+                  <td className="px-2.5 py-1.5">
+                    <div className="font-medium leading-tight">{p.name}</div>
+                    {p.color_code && (
+                      <div className="text-[10.5px] text-muted-foreground tabular-nums">
+                        {p.color_code}
+                      </div>
+                    )}
+                  </td>
+                  <td className="px-2 py-1.5 text-right tabular-nums whitespace-nowrap">
+                    ${p.price.toFixed(2)}
+                  </td>
+                  <td className="px-2 py-1.5 text-center">
+                    <div className="inline-flex items-center gap-0">
+                      <button
+                        type="button"
+                        onClick={() => onStep(p.id, -1)}
+                        disabled={q <= 0}
+                        aria-label="Decrease"
+                        className="w-6 h-7 inline-flex items-center justify-center rounded-l-md border border-border bg-background text-muted-foreground hover:text-foreground hover:bg-accent disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                      >
+                        <Minus size={11} />
+                      </button>
+                      <input
+                        type="number"
+                        min={0}
+                        value={quantities[p.id] ?? ""}
+                        onChange={(e) => onSetQty(p.id, e.target.value)}
+                        placeholder="0"
+                        className="h-7 w-10 px-1 border-y border-border bg-background text-foreground text-[12px] text-center tabular-nums outline-none focus:ring-[2px] focus:ring-foreground/30 focus:relative"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => onStep(p.id, +1)}
+                        aria-label="Increase"
+                        className="w-6 h-7 inline-flex items-center justify-center rounded-r-md border border-border bg-background text-muted-foreground hover:text-foreground hover:bg-accent cursor-pointer"
+                      >
+                        <Plus size={11} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
 
 function generateOrderNumber(channel: OrderChannel): string {
   const base = Math.floor(100_000_000 + Math.random() * 900_000_000).toString();
