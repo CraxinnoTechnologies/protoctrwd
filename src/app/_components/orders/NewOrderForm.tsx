@@ -116,6 +116,34 @@ export function NewOrderForm({
     [groups]
   );
 
+  const gridColumns = useMemo<ProductGroup[][]>(() => {
+    const byKey = new Map(groups.map((g) => [g.key, g] as const));
+    const pick = (keys: string[]) =>
+      keys.map((k) => byKey.get(k)).filter((g): g is ProductGroup => Boolean(g));
+
+    const col1 = pick(["2_de_taped", "2_se_taped"]);
+    const col2 = pick(["2_5_de_taped", "2_5_de_specialty"]);
+    const col3 = pick(["2_5_de_wood_grain"]);
+
+    const tools = byKey.get("tools");
+    const assigned = new Set([
+      ...col1.map((g) => g.key),
+      ...col2.map((g) => g.key),
+      ...col3.map((g) => g.key),
+      ...(tools ? [tools.key] : []),
+    ]);
+    const leftovers = groups.filter((g) => !assigned.has(g.key));
+
+    const cols: ProductGroup[][] = [col1, col2, col3];
+    if (tools) {
+      const sizes = cols.map((c) => c.reduce((s, g) => s + g.products.length, 0));
+      const shortest = sizes.indexOf(Math.min(...sizes));
+      cols[shortest] = [...cols[shortest], tools];
+    }
+    if (leftovers.length) cols[2] = [...cols[2], ...leftovers];
+    return cols;
+  }, [groups]);
+
   const lineItems = useMemo(() => {
     return allProducts
       .map((p) => {
@@ -441,15 +469,19 @@ export function NewOrderForm({
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
-            {groups.map((g) => (
-              <CategoryCard
-                key={g.key}
-                group={g}
-                quantities={quantities}
-                onSetQty={setQty}
-                onStep={stepQty}
-              />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 items-start">
+            {gridColumns.map((col, idx) => (
+              <div key={idx} className="flex flex-col gap-3">
+                {col.map((g) => (
+                  <CategoryCard
+                    key={g.key}
+                    group={g}
+                    quantities={quantities}
+                    onSetQty={setQty}
+                    onStep={stepQty}
+                  />
+                ))}
+              </div>
             ))}
           </div>
         )}
